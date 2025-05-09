@@ -2,13 +2,14 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const fs = require('fs');
+const path = require('path');
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/api/meals", async (req, res) => {
   try {
-    const meals = await fs.readFile(
+    const meals = await fs.promises.readFile(
       path.join(__dirname, "data", "available-meals.json"),
       "utf8"
     );
@@ -61,13 +62,13 @@ app.post("/api/orders", async (req, res) => {
     ...orderData,
     id: (Math.random() * 1000).toString(),
   };
-  const orders = await fs.readFile(
+  const orders = await fs.promises.readFile(
     path.join(__dirname, "data", "orders.json"),
     "utf8"
   );
   const allOrders = JSON.parse(orders);
   allOrders.push(newOrder);
-  await fs.writeFile(
+  await fs.promises.writeFile(
     path.join(__dirname, "data", "orders.json"),
     JSON.stringify(allOrders)
   );
