@@ -3,7 +3,7 @@ export default function Product({ product , handleAddProduct }) {
     <li className="meal-item">
       <article>
         <img
-          src={`http://localhost:3000/${product.image}`}
+          src={`/${product.image}`}
           alt={product.name}
         />
         <h3>{product.name}</h3>
