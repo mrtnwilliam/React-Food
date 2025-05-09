@@ -14,6 +14,7 @@ app.get("/api/meals", async (req, res) => {
     res.json(JSON.parse(meals));
   } catch (error) {
     res.status(500).json({ message: "Failed to load meals." });
+    console.error(error);
   }
 });
 
