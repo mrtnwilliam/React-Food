@@ -1,17 +1,20 @@
+const BASE_URL =
+  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+
 export async function fetchProducts() {
-  const response = await fetch("http://localhost:3000/meals");
+  const response = await fetch(`${BASE_URL}/api/meals`);
   const resData = await response.json();
   if (!response.ok) {
     throw new Error("Failed to fetch Products");
   }
-  return resData
+  return resData;
 }
 
 export async function postOrder(order) {
-  const response = await fetch("http://localhost:3000/orders", {
-    method : "POST",
-    body : JSON.stringify(order),
-    headers : {
+  const response = await fetch(`${BASE_URL}/api/orders`, {
+    method: "POST",
+    body: JSON.stringify(order),
+    headers: {
       "Content-Type": "application/json",
     },
   });
@@ -19,8 +22,8 @@ export async function postOrder(order) {
   const resData = await response.json();
 
   if (!response.ok) {
-    throw new Error(resData.message)
+    throw new Error(resData.message);
   }
 
-  return resData.message
+  return resData.message;
 }
