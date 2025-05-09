@@ -19,10 +19,6 @@
       "dest": "backend/app.js"
     },
     {
-      "src": "/assets/(.*)",
-      "dest": "dist/assets/$1"
-    },
-    {
       "src": "/(.*)",
       "dest": "dist/$1"
     }
