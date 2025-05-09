@@ -6,16 +6,15 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-// console.log(__dirname);
 const app = express();
 
 app.use(bodyParser.json());
 
-if (process.env.VERCEL) {
-  app.use(express.static(path.join(__dirname, '../dist')));
-} else {
-  app.use(express.static(path.join(__dirname, "public")));
-}
+app.use(express.static(
+  process.env.VERCEL 
+    ? path.join(__dirname, '../dist') 
+    : path.join(__dirname, "public")
+));
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -35,6 +34,10 @@ app.get("/api/meals", async (req, res) => {
     res.status(500).json({ message: "Failed to load meals." });
   }
 });
+
+app.get("/api/date",async (req,res) => {
+  return res.json(new Date().toISOString());
+})
 
 app.post("/api/orders", async (req, res) => {
   const orderData = req.body.order;
