@@ -1,4 +1,11 @@
-export default function Product({ product , handleAddProduct }) {
+import { useContext } from "react";
+import CartContext from "../store/CartContext";
+
+export default function Product({ product }) {
+  const cartCtx = useContext(CartContext);
+
+  function handleAddToCart() {cartCtx.addItem(product)}
+
   return (
     <li className="meal-item">
       <article>
@@ -14,7 +21,7 @@ export default function Product({ product , handleAddProduct }) {
         <div className="meal-item-actions">
           <button
             className="button"
-            onClick={() => handleAddProduct(product.id)}
+            onClick={handleAddToCart}
           >
             Add to Cart
           </button>

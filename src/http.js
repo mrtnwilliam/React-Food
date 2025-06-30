@@ -1,5 +1,5 @@
 const BASE_URL =
-  process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+  process.env.NODE_ENV === "development" ? "http://localhost:5000" : "";
 
 export async function fetchProducts() {
   const response = await fetch(`${BASE_URL}/api/meals`);

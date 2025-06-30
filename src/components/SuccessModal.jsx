@@ -1,9 +1,10 @@
-import { forwardRef } from "react";
-import Modal from "./Modal";
+import { useModals } from "../store/ModalContext";
+import Modal from "../UI/Modal";
 
-const SuccessModal = forwardRef(function SuccessModal(props,ref) {
+function SuccessModal() {
+  const { refs } = useModals()
   return (
-    <Modal ref={ref} >
+    <Modal ref={refs.successModalRef} >
       <h3>Success!</h3>
       <p>Your order was submitted successfully.</p>
       <p>
@@ -15,6 +16,6 @@ const SuccessModal = forwardRef(function SuccessModal(props,ref) {
       </form>
     </Modal>
   );
-});
+};
 
 export default SuccessModal;

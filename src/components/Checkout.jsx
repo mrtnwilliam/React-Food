@@ -1,39 +1,45 @@
-import { forwardRef } from "react";
-import Modal from "./Modal";
+import { useContext } from "react";
+import Modal from "../UI/Modal";
 import Input from "./Input";
 import { postOrder } from "../http";
+import CartContext from "../store/CartContext";
+import { useModals } from "../store/ModalContext";
 
-const Checkout = forwardRef(function Checkout({ cart , handleSuccess }, ref) {
+function Checkout() {
+  const { refs, actions } = useModals();
+  const cartCtx = useContext(CartContext);
+  const totalPrice = cartCtx.items
+    .reduce((sum, item) => sum + item.price * item.quantity, 0)
+    .toFixed(2);
+
   async function handleSubmit(event) {
     event.preventDefault();
 
     const fd = new FormData(event.target);
     const data = Object.fromEntries(fd.entries());
 
-    console.log(data)
-
     const orderData = {
       order: {
-        items: cart.meals,
+        items: cartCtx.items,
         customer: data,
       },
     };
     try {
       const message = await postOrder(orderData);
       if(message) {
-        handleSuccess()
+        actions.openSuccessModal()
       }
     } catch (error) {
       console.log(error.message)
     }
 
-    ref.current.close();
+    // ref.current.close();
   }
 
   return (
-    <Modal className="control" ref={ref}>
+    <Modal className="control" ref={refs.checkoutModalRef}>
       <h3>Checkout</h3>
-      <p>Total Amount ${cart.totalPrice}</p>
+      <p>Total Amount ${totalPrice}</p>
       <form onSubmit={handleSubmit}>
         <Input name="name" label="Full Name" inputType="text" />
         <Input name="email" label="E-Mail Address" inputType="email" />
@@ -47,7 +53,7 @@ const Checkout = forwardRef(function Checkout({ cart , handleSuccess }, ref) {
           <button
             className="text-button"
             type="reset"
-            onClick={() => ref.current.close}
+            onClick={() => refs.checkoutModalRef.current?.close()}
           >
             Close
           </button>
@@ -58,6 +64,6 @@ const Checkout = forwardRef(function Checkout({ cart , handleSuccess }, ref) {
       </form>
     </Modal>
   );
-});
+};
 
 export default Checkout;

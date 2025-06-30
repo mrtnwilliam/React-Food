@@ -2,8 +2,9 @@ import { useState , useEffect } from "react";
 import Product from "./Product";
 import { fetchProducts } from "../http";
 
-export default function Products({handleAddProduct , availableMeals , setAvailableMeals}) {
-
+export default function Products() {
+  
+  const [availableMeals, setAvailableMeals] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [error, setError] = useState();
 
@@ -33,7 +34,7 @@ export default function Products({handleAddProduct , availableMeals , setAvailab
       {!isFetching && availableMeals.length > 0 && (
         <ul id="meals">
           {availableMeals.map((meal) => (
-            <Product product={meal} key={meal.id} handleAddProduct={handleAddProduct} />
+            <Product product={meal} key={meal.id} />
           ))}
         </ul>
       )}
